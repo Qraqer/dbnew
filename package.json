@@ -4,11 +4,32 @@
   "description": "Здесь живёт новый фронт для daichi.business",
   "type": "module",
   "scripts": {
-    "build": ""
+    "build": "webpack --mode production --env production",
+    "check": "stylelint && eslint src/",
+    "eslint": "eslint src/",
+    "eslintfix": "eslint src/ --fix",
+    "lint": "npm run stylelint && npm run eslint && npm run prettier",
+    "prettier": "prettier \"./src/**/*.{js,jsx,ts,tsx,json,html,css,md}\" --write",
+    "stylelint": "stylelint \"./src/**/*.css\" --fix",
+    "prepare": "husky"
+  },
+  "engines": {
+    "node": ">=23"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Qraqer/dbnew.git"
+  },
+  "lint-staged": {
+    "./src/**/*.css": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "./src/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix --no-warn-ignored",
+      "prettier --write"
+    ],
+    "./src/**/*.{json,html,md}": "prettier --write"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
@@ -20,8 +41,16 @@
     "redux-thunk": "^3.1.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "@testing-library/jest-dom": "^6.6.4",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.1.7",
+    "@types/webpack": "^5.28.5",
+    "@types/webpack-dev-server": "^4.7.1",
+    "copy-webpack-plugin": "^13.0.0",
+    "css-loader": "^7.1.2",
     "eslint": "^9.32.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
@@ -32,13 +61,25 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "eslint-plugin-unused-imports": "^4.1.4",
+    "globals": "^16.3.0",
+    "husky": "^9.1.7",
+    "jiti": "^2.5.1",
+    "jsdom": "^26.1.0",
+    "lint-staged": "^16.1.5",
     "prettier": "^3.6.2",
+    "sass": "^1.90.0",
+    "sass-loader": "^16.0.5",
+    "style-loader": "^4.0.0",
     "stylelint": "^16.23.0",
     "stylelint-config-standard": "^39.0.0",
     "stylelint-order": "^7.0.0",
+    "ts-loader": "^9.5.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.39.0",
-    "typescript-plugin-css-modules": "^5.2.0"
+    "typescript-plugin-css-modules": "^5.2.0",
+    "webpack": "^5.101.0",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.2"
   }
 }

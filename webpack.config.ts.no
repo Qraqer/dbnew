@@ -1,0 +1,46 @@
+import path from 'path';
+import webpack from 'webpack';
+
+type TEnvMode = 'production' | 'development';
+
+interface IEnvVariables {
+  mode?: TEnvMode
+}
+
+interface IPaths {
+  entry: string;
+  output: string;
+  src: string;
+}
+
+export default (env: IEnvVariables) => {
+  const paths: IPaths = {
+    output: path.resolve(__dirname, 'dist'),
+    entry: path.resolve(__dirname, 'src', 'index.tsx'),
+    src: path.resolve(__dirname, 'src'),
+  }
+
+  const isDev = env.mode === 'development';
+  const isProd = env.mode === 'production';
+
+  const devserv = {
+        port: 3000,
+        open: true,
+        historyApiFallback: true,
+        hot: true
+    }
+
+  const config: webpack.Configuration & {devServer: Record<string, string | number | boolean> | undefined} = {
+    mode: isDev ? 'development' : 'production',
+    entry: paths.entry,
+    output: {
+      path: paths.output,
+      filename: '[name].js',
+      clean: true
+    },
+    devtool: isDev ? 'eval-cheap-module-source-map' : 'source-map',
+    devServer: isDev ? devserv : undefined,
+  }
+
+  return config;
+}
